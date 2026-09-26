@@ -1,51 +1,61 @@
 # secret
 ```
-int change_left(int num) {
-    int sign = 1;
-    if (num < 0) {
-        sign = -1;
-        num = -num;
-    }
-    if (num == 0) return 0;
+#include <stdio.h>
 
-    // Считаем, сколько цифр в числе
-    int digits = 0;
-    int temp = num;
-    while (temp > 0) {
-        digits++;
-        temp /= 10;
-    }
+int bitwise_add(int num, int addend);
+int rev(int normal);
 
-    // Если цифр нечётное количество — самая правая остаётся без пары
-    int last = -1;
-    if (digits % 2 == 1) {
-        last = num % 10;
-        num /= 10;
-        digits--;
-    }
+int main(void){
+	int ans = 0;
+	int n, m;
+	int input
 
-    // power — это 10^(digits-2), т.е. разряд первой пары слева
-    int power = 1;
-    for (int i = 0; i < digits - 2; i++) {
-        power *= 10;
-    }
+	printf("Введите n и m:\n");
+	scanf("%d%d",&n, &m);
+	// printf("121344324");
+	// scanf("%d", m);
+	ans = bitwise_add(n, m);
+	printf("\nответ: %d\n", ans);
 
-    int ans = 0;
-    while (power > 0) {
-        int pair = num / power;                     // первые две цифры
-        int swapped = (pair % 10) * 10 + pair / 10; // меняем их местами
-
-        ans = ans * 100 + swapped;                  // приклеиваем справа
-        num = num % power;                          // убираем обработанные цифры
-        power /= 100;
-    }
-
-    if (last >= 0) {
-        ans = ans * 10 + last;                      // непарная правая цифра
-    }
-
-    return sign * ans;
+	return 0;
 }
+
+int rev(int normal){
+	int inv_num = 0;
+	while(normal){
+		inv_num = inv_num * 10 + normal% 10;
+		normal /= 10;
+	}
+	return inv_num;
+}
+
+int bitwise_add(int num, int addend){
+	int ans = 0;
+	int y = 0;
+	int sign = 1;
+
+	if(num < 0){
+		sign = -1;
+		num = -num;
+	}
+
+	while( num != 0 ){
+		y = num % 10 + addend;
+
+		if( y < 0 ){
+			y = -y;
+		}
+
+		y %= 10;
+		ans = ans * 10 + y;
+		num /= 10;
+	}
+	
+	ans = rev(ans);
+
+	return sign * ans;
+}
+
 ```
 
 
